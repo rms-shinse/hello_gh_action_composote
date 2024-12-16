@@ -1,0 +1,24 @@
+name: Hello, World!
+
+on: [push]
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Hello, World!
+        run: echo "Hello, World!"
+        shell: bash
+
+      - name: test output - write
+        id: test-output-write
+        run: echo "hello_from_output=hello, world" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: test output - read
+        run: echo "hello_from_output=${{ steps.test-output-write.outputs.hello_from_output }}"
+        shell: bash
