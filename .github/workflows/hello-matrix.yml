@@ -1,0 +1,29 @@
+name: Hello, World! - Matrix
+
+on: [push]
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dir: [dir1, dir2]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Hello, World!
+        run: echo "Hello, World!"
+        shell: bash
+
+      - name: test output - write
+        id: test-output-write
+        run: echo "hello_from_output=$(cat HELLO_WORLD)" >> $GITHUB_OUTPUT
+        shell: bash
+        working-directory: ${{ matrix.dir }}
+
+      - name: test output - read
+        run: echo "hello_from_output=${{ steps.test-output-write.outputs.hello_from_output }}"
+        shell: bash
+        working-directory: ${{ matrix.dir }}
